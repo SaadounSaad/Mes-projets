@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste & Saisie</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 300px;
+            margin: auto;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Choisissez et Saisissez</h2>
+        <label for="selection">Sélectionnez une sourate :</label>
+        <select id="selection" onchange="sauvegarderValeurs()"></select>
+        
+        <label for="number">Entrez un chiffre :</label>
+        <input type="number" id="number" placeholder="Entrez un chiffre" oninput="sauvegarderValeurs()">
+        
+        <button onclick="afficherValeur()">Valider</button>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let selectionElement = document.getElementById("selection");
+            let sourates = [
+                "الفاتحة", "البقرة", "آل عمران", "النساء", "المائدة", "الأنعام", "الأعراف", "الأنفال", "التوبة", "يونس", "هود", "يوسف", "الرعد", "إبراهيم", "الحجر", "النحل", "الإسراء", "الكهف", "مريم", "طه", "الأنبياء", "الحج", "المؤمنون", "النور", "الفرقان", "الشعراء", "النمل", "القصص", "العنكبوت", "الروم", "لقمان", "السجدة", "الأحزاب", "سبأ", "فاطر", "يس", "الصافات", "ص", "الزمر", "غافر", "فصلت", "الشورى", "الزخرف", "الدخان", "الجاثية", "الأحقاف", "محمد", "الفتح", "الحجرات", "ق", "الذاريات", "الطور", "النجم", "القمر", "الرحمن", "الواقعة", "الحديد", "المجادلة", "الحشر", "الممتحنة", "الصف", "الجمعة", "المنافقون", "التغابن", "الطلاق", "التحريم", "الملك", "القلم", "الحاقة", "المعارج", "نوح", "الجن", "المزمل", "المدثر", "القيامة", "الإنسان", "المرسلات", "النبأ", "النازعات", "عبس", "التكوير", "الانفطار", "المطففين", "الانشقاق", "البروج", "الطارق", "الأعلى", "الغاشية", "الفجر", "البلد", "الشمس", "الليل", "الضحى", "الشرح", "التين", "العلق", "القدر", "البينة", "الزلزلة", "العاديات", "القارعة", "التكاثر", "العصر", "الهمزة", "الفيل", "قريش", "الماعون", "الكوثر", "الكافرون", "النصر", "المسد", "الإخلاص", "الفلق", "الناس"
+            ];
+            sourates.forEach((sourate, index) => {
+                let option = document.createElement("option");
+                option.value = sourate;
+                option.textContent = `${index + 1}- ${sourate}`;
+                selectionElement.appendChild(option);
+            });
+            setTimeout(chargerValeurs, 100); // Attendre la population du select
+        });
+
+        function sauvegarderValeurs() {
+            try {
+                let selection = document.getElementById("selection").value;
+                let number = document.getElementById("number").value;
+                localStorage.setItem("selection", selection);
+                localStorage.setItem("number", number);
+            } catch (e) {
+                console.warn("Stockage local non disponible");
+            }
+        }
+
+        function chargerValeurs() {
+            try {
+                let selection = localStorage.getItem("selection");
+                let number = localStorage.getItem("number");
+                if (selection) {
+                    document.getElementById("selection").value = selection;
+                }
+                if (number) {
+                    document.getElementById("number").value = number;
+                }
+            } catch (e) {
+                console.warn("Stockage local non disponible");
+            }
+        }
+
+        function afficherValeur() {
+            let selection = document.getElementById("selection").value;
+            let number = document.getElementById("number").value;
+            alert("Vous avez sélectionné : " + selection + " et saisi : " + number);
+        }
+    </script>
+</body>
+</html>
